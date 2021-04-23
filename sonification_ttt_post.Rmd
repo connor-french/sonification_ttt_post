@@ -1,7 +1,6 @@
 ---
 title: "Sonification for data accessibility"
 author: "Connor French"
-date: "4/14/2021"
 output: html_document
 ---
 ```{r setup, message = FALSE, echo=FALSE}
@@ -14,7 +13,6 @@ theme_update(axis.title = element_text(size = 16))
 
 knitr::opts_chunk$set(fig.width = 5, fig.height = 4, fig.align = "center")
 ```
-
 
 
 A few weeks ago my partner shared a [TED Talk](https://www.youtube.com/watch?v=-hY9QSdaReY) with me that changed how I conceptualize data communication. In it [Dr. Wanda Diaz Merced](https://www.ted.com/speakers/wanda_diaz_merced), an astronomer who lost her eyesight in her early twenties, discusses her journey back into science after this setback. A crucial technique helped her interpret hefty astronomy data sets- sonification. [Sonification turns data into sound](https://handbook.floeproject.org/sonification). It is analogous to data visualization, where both methods aim to communicate patterns and relationships within data clearly and efficiently. Not only did sonification make data accessible for Dr. Merced, it helped her uncover patterns obscured by visualizing graphs and charts.  
@@ -77,6 +75,12 @@ response_hist <- univariate_data %>%
 response_hist
 ```
 
+```{r, echo=FALSE, eval=FALSE}
+ggsave(filename = here("figures", "histogram.png"), 
+       plot = response_hist, width = 5, height = 4, units = "in")
+```
+
+
 ```{r, eval=FALSE, echo=FALSE}
 # get histogram count data for sonification
 hist_data <- ggplot_build(response_hist)$data[[1]]
@@ -107,12 +111,18 @@ set.seed(7485)
 
 linear_data <- generate_data(n_obs = 50, beta = 1.2, error_sigma = 1, is_exponential = FALSE)
 
-linear_data %>%
+linear_plot <- linear_data %>%
   ggplot(aes(x = predictor, y = response)) +
   geom_point(fill = "skyblue", color = "black", size = 3, shape = 21) +
   labs(x = "Hunger level", y = "Burger craving strength")
+
+linear_plot
 ```
 
+```{r, echo=FALSE, eval=FALSE}
+ggsave(filename = here("figures", "linear_scatter.png"), 
+       plot = linear_plot, width = 5, height = 4, units = "in")
+```
 
 ```{r, echo=FALSE, eval=FALSE}
 sound_linear <- sonify::sonify(x = linear_data$predictor, 
@@ -143,14 +153,22 @@ The final visualization I'll present is an exponential relationship between two 
 ```{r, echo=FALSE, fig.cap="A scatterplot representing an exponential relationship between two variables. Hunger level on the x axis and burger craving strength on the y axis"}
 expnt <- 2
 
+set.seed(9999)
+
 exponential_data <- generate_data(is_exponential = TRUE, exponent = expnt)
 
-exponential_data %>%
+exponential_plot <- exponential_data %>%
   ggplot(aes(x = predictor, y = response)) +
   geom_point(fill = "skyblue", color = "black", size = 3, shape = 21) +
-  labs(x = "Hunger level", y = "Big ol' plate of nachos craving strength")
+  labs(x = "Hunger level", y = "Nachos craving strength")
+
+exponential_plot
 ```
 
+```{r, echo=FALSE, eval=FALSE}
+ggsave(filename = here("figures", "exponential_scatter.png"), 
+       plot = exponential_plot, width = 5, height = 4, units = "in")
+```
 
 ```{r, eval=FALSE, echo=FALSE}
 exponential_sound <- sonify::sonify(x = exponential_data$predictor, 
@@ -175,9 +193,9 @@ In this case, the pitch increases, well, exponentially! In addition, the points 
 
 <br>
 
-These are just a few ways sonification can be incorporated into your data communication and exploration arsenal. Besides making data more accessible to those who are blind or low vision, sonification opens up another avenue of data exploration to uncover patterns not evident in a visual medium. If you would like to take a crack at sonification yourself, there are a [variety](https://osf.io/vgaxh/wiki/Resources/) of [resources](https://jarednielsen.medium.com/data-sonification-and-web-scraping-with-node-js-and-tone-js-eaf2cd35a000). The sonifications for this post were created using the R package [sonify](https://cran.r-project.org/web/packages/sonify/index.html), which is a straightforward interface that will get you there quickly, without much overhead. To download the code for this post, click [here]()
+These are just a few ways sonification can be incorporated into your data communication and exploration arsenal. Besides making data more accessible to those who are blind or low vision, sonification opens up another avenue of data exploration to uncover patterns not evident in a visßual medium. Dr. Merced was able to [hear a distinct frequency pattern](https://youtu.be/-hY9QSdaReY?t=287) not evident from a chart that led her to discover that star formation likely plays an important part in supernova explosions! Sighted astronomers now use sonfication as a complement to visualization to investigate their data. If you would like to take a crack at sonification yourself, there are a [variety](https://osf.io/vgaxh/wiki/Resources/) of [resources](https://jarednielsen.medium.com/data-sonification-and-web-scraping-with-node-js-and-tone-js-eaf2cd35a000). The sonifications for this post were created using the R package [sonify](https://cran.r-project.org/web/packages/sonify/index.html), which is a straightforward interface that will get you there quickly, without much overhead. You can find the R code for this blog post [here](https://raw.githubusercontent.com/connor-french/sonification_ttt_post/main/sonification_ttt_post.Rmd).  
 
-Those of us at the [Graduate Center Digital Initiatives](https://gcdi.commons.gc.cuny.edu/) strive to make interactions with digital media more accessible. 
+<br>
 
-The sonifications were created using the R package [sonify](https://cran.r-project.org/web/packages/sonify/index.html). 
+Those of us at the [Graduate Center Digital Initiatives](https://gcdi.commons.gc.cuny.edu/) strive to make interactions with digital media more accessible. We provide a variety of resources to take advantage of digital tools in your research. In addition, we provide community and support with the [Digital Fellows](https://digitalfellows.commons.gc.cuny.edu/), so I encourage you to take a look and connect with us!  
 
