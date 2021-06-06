@@ -1,5 +1,5 @@
 ---
-title: "Sonification for data accessibility"
+title: "Sonification for data communication"
 author: "Connor French"
 output: html_document
 ---
